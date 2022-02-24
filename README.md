@@ -1,8 +1,12 @@
 <h1>Gantt-elastic - Javascript Gantt Chart (editable, responsive)</h1>
 <h2>Javascript Gantt Chart for vue, jquery, vanilla js and other frameworks</h2>
 
+<h3>本组件基于Gantt-elastic做了二次开发，新增功能如下：</h3>
+1. 新增显示进度条上的进度百分比
+2. 新增对延期时间的展示
+
 <br>
-<h3>Project moved as next major version to <a href="https://github.com/neuronetio/gantt-schedule-timeline-calendar">gantt-schedule-timeline-calendar</a></h3><br><br>
+<h3>Original Gantt-elastic moved as next major version to <a href="https://github.com/neuronetio/gantt-schedule-timeline-calendar">gantt-schedule-timeline-calendar</a></h3><br><br>
 <br>
 
 <strong>This project is not suitable for use in a production environment as it runs very slowly even in standard medium projects. This project has been completely rewritten and built with super performance in mind and is available in the new repository as a <a href="https://github.com/neuronetio/gantt-schedule-timeline-calendar">gantt-schedule-timeline-calendar</a>.</strong>
@@ -10,9 +14,9 @@
 
 <h2><a href="https://neuronet.io/gantt-elastic/" target="_blank">Gantt-elastic demo here</a></h2>
 
-![preview img](https://github.com/neuronetio/gantt-elastic/raw/master/gantt-elastic.jpg)
-![preview gif](https://github.com/neuronetio/gantt-elastic/raw/master/gantt-elastic.gif)
-![preview gif](https://github.com/neuronetio/gantt-elastic/raw/master/grab-scroll.gif)
+![preview img](https://github.com/zhangzicao/gantt-elastic/raw/master/gantt-elastic.jpg)
+![preview gif](https://github.com/zhangzicao/gantt-elastic/raw/master/gantt-elastic.gif)
+![preview gif](https://github.com/zhangzicao/gantt-elastic/raw/master/grab-scroll.gif)
 
 ## Gantt-elastic
 
@@ -24,7 +28,7 @@ is a vue component but it could be used in other frameworks or even with jQuery 
 
 ### Installation
 
-`npm install --save gantt-elastic` or download zip from github / clone repo
+`npm install --save @zhangzicao/gantt-elastic` or download zip from github / clone repo
 
 and if you want default header
 
@@ -42,8 +46,8 @@ and if you want default header
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dayjs"></script>
 
-    <script src="https://unpkg.com/gantt-elastic/dist/GanttElastic.umd.js"></script>
-    <script src="https://unpkg.com/gantt-elastic-header/dist/Header.umd.js"></script>
+    <script src="/gantt-elastic/dist/GanttElastic.umd.js"></script>
+    <script src="/gantt-elastic-header/dist/Header.umd.js"></script>
   </head>
 
   <body>
@@ -114,6 +118,7 @@ and if you want default header
           duration: 2 * 24 * 60 * 60 * 1000,
           progress: 100,
           type: 'task',
+          postponse: 1 * 24 * 60 * 60 * 1000,
         },
         {
           id: 4,
@@ -145,7 +150,13 @@ and if you want default header
         },
         chart: {
           progress: {
+            pattern: true,
             bar: false,
+            patternType: 1,
+            textInside: true,
+          },
+          postponse: {
+            display: false,
           },
           expander: {
             display: true,
@@ -303,15 +314,15 @@ and if you want default header
 
 ### gantt-elastic as vue component
 
-Take a look at the `vue.html` inside [examples folder](https://github.com/neuronetio/gantt-elastic/tree/master/examples) file to see how you could add gantt-elastic inside `<script>` tag along with the Vue framework
+Take a look at the `vue.html` inside [examples folder](https://github.com/zhangzicao/gantt-elastic/tree/master/examples) file to see how you could add gantt-elastic inside `<script>` tag along with the Vue framework
 
-Demo project: https://github.com/neuronetio/vue-gantt-elastic
+Demo project: https://github.com/zhangzicao/vue-gantt-elastic
 
-You can also import gantt-elastic as compiled js component in commonjs or umd format ([examples](https://github.com/neuronetio/gantt-elastic/tree/master/examples) folder) or just grab GanttElastic.vue from src directory and add to your existing vue project.
+You can also import gantt-elastic as compiled js component in commonjs or umd format ([examples](https://github.com/zhangzicao/gantt-elastic/tree/master/examples) folder) or just grab GanttElastic.vue from src directory and add to your existing vue project.
 
 ```javascript
 import Vue from 'vue';
-import GanttElastic from "gantt-elastic";
+import GanttElastic from "@zhangzicao/gantt-elastic";
 import Header from "gantt-elastic-header"; // if you want standard header (npm i -s gantt-elastic-header)
 new Vue({
   el:'#gantt',
@@ -347,14 +358,14 @@ new Vue({
 
 ### For webpack usage (pure javascript, inside other frameworks or Vue App/Component)
 
-Take a look at this demo project: https://github.com/neuronetio/gantt-elastic-webpack for other bundlers use umd or commonjs from dist folder.
+Take a look at this demo project: https://github.com/zhangzicao/gantt-elastic-webpack for other bundlers use umd or commonjs from dist folder.
 
 ```javascript
-import GanttElastic from 'gantt-elastic/dist/GantElastic.umd.js';
-import GanttElastic from 'gantt-elastic/dist/GantElastic.common.js'; // same as import GanttElastic from 'gantt-elastic';
-import GanttElastic from 'gantt-elastic/src/GantElastic.vue'; // if you want vue component directly without compilation - look above
+import GanttElastic from '@zhangzicao/gantt-elastic/dist/GantElastic.umd.js';
+import GanttElastic from '@zhangzicao/gantt-elastic/dist/GantElastic.common.js'; // same as import GanttElastic from '@zhangzicao/gantt-elastic';
+import GanttElastic from '@zhangzicao/gantt-elastic/src/GantElastic.vue'; // if you want vue component directly without compilation - look above
 // and the same with require
-const GanttElastic = require('gantt-elastic/dist/GantElastic.common.js');
+const GanttElastic = require('@zhangzicao/gantt-elastic/dist/GantElastic.common.js');
 ```
 
 ### uglifyjs
