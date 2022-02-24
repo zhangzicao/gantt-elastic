@@ -67,6 +67,7 @@
         :points="getPoints"
       ></polygon>
       <progress-bar :task="task" :clip-path="'url(#' + clipPathId + ')'"></progress-bar>
+      <postponse-sign :task="task" v-if="root.state.options.chart.postponse.display && task.postponse && task.postponse!=='0'"></postponse-sign>
     </svg>
     <chart-text :task="task" v-if="root.state.options.chart.text.display"></chart-text>
   </g>
@@ -77,9 +78,11 @@ import ChartText from '../Text.vue';
 import ProgressBar from '../ProgressBar.vue';
 import Expander from '../../Expander.vue';
 import taskMixin from './Task.mixin.js';
+import PostponseSign from "../PostponseSign.vue";
 export default {
   name: 'Task',
   components: {
+    PostponseSign,
     ChartText,
     ProgressBar,
     Expander

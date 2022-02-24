@@ -56,7 +56,8 @@ function getOptions(userOptions) {
       progress: 'progress',
       type: 'type',
       style: 'style',
-      collapsed: 'collapsed'
+      collapsed: 'collapsed',
+      postponse: 'postponse' // 推迟时间
     },
     width: 0,
     height: 0,
@@ -123,7 +124,12 @@ function getOptions(userOptions) {
         width: 20, //*
         height: 6, //*
         pattern: true,
-        bar: false
+        bar: false,
+        patternType: 1,
+        textInside: false,
+      },
+      postponse: {
+        display: false
       },
       text: {
         offset: 4, //*

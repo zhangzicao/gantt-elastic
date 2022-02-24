@@ -260,6 +260,10 @@ export default function getStyle(fontSize = '12px', fontFamily = 'Arial, sans-se
       'stroke-width': 1,
       fill: '#F75C4C'
     },
+    'chart-row-bar-text': {
+      'text-align': 'center',
+      color: '#fff'
+    },
     'chart-row-project-wrapper': {},
     'chart-row-project': {},
     'chart-row-project-polygon': {},
@@ -286,6 +290,12 @@ export default function getStyle(fontSize = '12px', fontFamily = 'Arial, sans-se
     'chart-row-progress-bar-outline': {
       stroke: '#E74C3C',
       'stroke-width': 1
+    },
+    'chart-row-postponse-bar-outline': {
+      stroke: '#FFFFFF',
+      fill: 'transparent',
+      'stroke-width': 2,
+      'stroke-dasharray': '2 2'
     },
     'chart-dependency-lines-wrapper': {},
     'chart-dependency-lines-path': {

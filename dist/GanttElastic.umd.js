@@ -3744,7 +3744,10 @@ var DependencyLinesvue_type_template_id_f1cbf6ba_render = function() {
             style: Object.assign(
               {},
               _vm.root.style["chart-dependency-lines-path"],
-              task.style["chart-dependency-lines-path"]
+              task.style["chart-dependency-lines-path"],
+              task.style[
+                "chart-dependency-lines-path-" + dependencyLine.task_id
+              ]
             ),
             attrs: { task: task, d: dependencyLine.points }
           })
@@ -3872,7 +3875,7 @@ DependencyLinesvue_type_template_id_f1cbf6ba_render._withStripped = true
         .filter(task => typeof task.dependentOn !== 'undefined')
         .map(task => {
           task.dependencyLines = task.dependentOn.map(id => {
-            return { points: this.getPoints(id, task.id) };
+            return { points: this.getPoints(id, task.id), task_id: id };
           });
           return task;
         })
@@ -4043,7 +4046,13 @@ var Taskvue_type_template_id_e9c23eca_render = function() {
               task: _vm.task,
               "clip-path": "url(#" + _vm.clipPathId + ")"
             }
-          })
+          }),
+          _vm._v(" "),
+          _vm.root.state.options.chart.postponse.display &&
+          _vm.task.postponse &&
+          _vm.task.postponse !== "0"
+            ? _c("postponse-sign", { attrs: { task: _vm.task } })
+            : _vm._e()
         ],
         1
       ),
@@ -4277,88 +4286,127 @@ var ProgressBarvue_type_template_id_4bc39355_render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "g",
-    {
-      staticClass: "gantt-elastic__chart-row-progress-bar-wrapper",
-      style: Object.assign(
-        {},
-        _vm.root.style["chart-row-progress-bar-wrapper"],
-        _vm.task.style["chart-row-progress-bar-wrapper"]
-      )
-    },
     [
-      _c("defs", [
-        _c(
-          "pattern",
-          {
-            attrs: {
-              id: "diagonalHatch",
-              width: _vm.root.state.options.chart.progress.width,
-              height: _vm.root.state.options.chart.progress.width,
-              patternTransform: "rotate(45 0 0)",
-              patternUnits: "userSpaceOnUse"
-            }
-          },
-          [
-            _c("line", {
-              staticClass: "chart-row-progress-bar-line",
-              style: Object.assign(
-                {},
-                _vm.root.style["chart-row-progress-bar-line"],
-                _vm.task.style["chart-row-progress-bar-line"]
-              ),
-              attrs: {
-                x1: "0",
-                y1: "0",
-                x2: "0",
-                y2: _vm.root.state.options.chart.progress.width
-              }
-            })
-          ]
-        )
-      ]),
+      _c(
+        "g",
+        {
+          staticClass: "gantt-elastic__chart-row-progress-bar-wrapper",
+          style: Object.assign(
+            {},
+            _vm.root.style["chart-row-progress-bar-wrapper"],
+            _vm.task.style["chart-row-progress-bar-wrapper"]
+          )
+        },
+        [
+          _c("defs", [
+            _c(
+              "pattern",
+              {
+                attrs: {
+                  id: "diagonalHatch",
+                  width: _vm.root.state.options.chart.progress.width,
+                  height: _vm.root.state.options.chart.progress.width,
+                  patternTransform: "rotate(45 0 0)",
+                  patternUnits: "userSpaceOnUse"
+                }
+              },
+              [
+                _c("line", {
+                  staticClass: "chart-row-progress-bar-line",
+                  style: Object.assign(
+                    {},
+                    _vm.root.style["chart-row-progress-bar-line"],
+                    _vm.task.style["chart-row-progress-bar-line"]
+                  ),
+                  attrs: {
+                    x1: "0",
+                    y1: "0",
+                    x2: "0",
+                    y2: _vm.root.state.options.chart.progress.width
+                  }
+                })
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _vm.root.state.options.chart.progress.bar
+            ? _c("rect", {
+                staticClass: "gantt-elastic__chart-row-progress-bar-solid",
+                style: Object.assign(
+                  {},
+                  _vm.root.style["chart-row-progress-bar-solid"],
+                  _vm.task.style["chart-row-progress-bar-solid"]
+                ),
+                attrs: { x: "0", y: "0", width: _vm.getProgressWidth }
+              })
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.root.state.options.chart.progress.pattern
+            ? _c("g", [
+                _c("rect", {
+                  staticClass: "gantt-elastic__chart-row-progress-bar-pattern",
+                  style: Object.assign(
+                    {},
+                    _vm.root.style["chart-row-progress-bar-pattern"],
+                    _vm.task.style["chart-row-progress-bar-pattern"],
+                    _vm.root.state.options.chart.progress.patternType == 2
+                      ? { fill: "rgba(0, 0, 0, 0.2)" }
+                      : null
+                  ),
+                  attrs: {
+                    x: _vm.getProgressWidth,
+                    y: "0",
+                    width: 100 - _vm.task.progress + "%",
+                    height: "100%"
+                  }
+                }),
+                _vm._v(" "),
+                _c("path", {
+                  staticClass: "gantt-elastic__chart-row-progress-bar-outline",
+                  style: Object.assign(
+                    {},
+                    _vm.root.style["chart-row-progress-bar-outline"],
+                    _vm.task.style["base"],
+                    _vm.task.style["chart-row-progress-bar-outline"]
+                  ),
+                  attrs: { d: _vm.getLinePoints }
+                })
+              ])
+            : _vm._e()
+        ]
+      ),
       _vm._v(" "),
-      _vm.root.state.options.chart.progress.bar
-        ? _c("rect", {
-            staticClass: "gantt-elastic__chart-row-progress-bar-solid",
-            style: Object.assign(
-              {},
-              _vm.root.style["chart-row-progress-bar-solid"],
-              _vm.task.style["chart-row-progress-bar-solid"]
-            ),
-            attrs: { x: "0", y: "0", width: _vm.getProgressWidth }
-          })
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.root.state.options.chart.progress.pattern
-        ? _c("g", [
-            _c("rect", {
-              staticClass: "gantt-elastic__chart-row-progress-bar-pattern",
-              style: Object.assign(
-                {},
-                _vm.root.style["chart-row-progress-bar-pattern"],
-                _vm.task.style["chart-row-progress-bar-pattern"]
-              ),
+      _vm.root.state.options.chart.progress.textInside
+        ? _c(
+            "foreignObject",
+            {
               attrs: {
-                x: _vm.getProgressWidth,
+                width: "48",
+                height: _vm.task.height,
+                x: _vm.task.width / 2 - 24,
                 y: "0",
-                width: 100 - _vm.task.progress + "%",
-                height: "100%"
+                requiredExtensions: "http://www.w3.org/1999/xhtml"
               }
-            }),
-            _vm._v(" "),
-            _c("path", {
-              staticClass: "gantt-elastic__chart-row-progress-bar-outline",
-              style: Object.assign(
-                {},
-                _vm.root.style["chart-row-progress-bar-outline"],
-                _vm.task.style["base"],
-                _vm.task.style["chart-row-progress-bar-outline"]
-              ),
-              attrs: { d: _vm.getLinePoints }
-            })
-          ])
+            },
+            [
+              _c(
+                "div",
+                {
+                  staticClass: "gantt-elastic__chart-row-bar-text",
+                  style: Object.assign(
+                    {},
+                    _vm.root.style["chart-row-bar-text"],
+                    _vm.task.style["chart-row-bar-text"],
+                    { "line-height": _vm.task.height + "px" }
+                  )
+                },
+                [_vm._v(_vm._s(_vm.task.progress) + "%")]
+              )
+            ]
+          )
         : _vm._e()
-    ]
+    ],
+    1
   )
 }
 var ProgressBarvue_type_template_id_4bc39355_staticRenderFns = []
@@ -4368,6 +4416,22 @@ ProgressBarvue_type_template_id_4bc39355_render._withStripped = true
 // CONCATENATED MODULE: ./src/components/Chart/ProgressBar.vue?vue&type=template&id=4bc39355&
 
 // CONCATENATED MODULE: ./node_modules/vue-loader/lib??vue-loader-options!./src/components/Chart/ProgressBar.vue?vue&type=script&lang=js&
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -4564,6 +4628,95 @@ ProgressBar_component.options.__file = "src/components/Chart/ProgressBar.vue"
   }
 });
 
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./src/components/Chart/PostponseSign.vue?vue&type=template&id=4740748d&
+var PostponseSignvue_type_template_id_4740748d_render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("path", {
+    staticClass: "gantt-elastic__chart-row-postponse-bar-outline",
+    style: Object.assign(
+      {},
+      _vm.root.style["chart-row-postponse-bar-outline"],
+      _vm.task.style["chart-row-postponse-bar-outline"]
+    ),
+    attrs: { d: _vm.getLinePoints }
+  })
+}
+var PostponseSignvue_type_template_id_4740748d_staticRenderFns = []
+PostponseSignvue_type_template_id_4740748d_render._withStripped = true
+
+
+// CONCATENATED MODULE: ./src/components/Chart/PostponseSign.vue?vue&type=template&id=4740748d&
+
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib??vue-loader-options!./src/components/Chart/PostponseSign.vue?vue&type=script&lang=js&
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ var PostponseSignvue_type_script_lang_js_ = ({
+  name: 'PostponseSign',
+  inject: ['root'],
+  props: ['task'],
+  data() {
+    return {};
+  },
+
+  computed: {
+    /**
+     * Get line points
+     *
+     * @returns {string}
+     */
+    getLinePoints() {
+      const start = this.task.width - this.task.width * this.task.postponse/this.task.duration;
+      const height = this.task.height;
+      return `M ${start} 1 L ${start} ${height-1}`;
+    },
+  },
+});
+
+// CONCATENATED MODULE: ./src/components/Chart/PostponseSign.vue?vue&type=script&lang=js&
+ /* harmony default export */ var Chart_PostponseSignvue_type_script_lang_js_ = (PostponseSignvue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./src/components/Chart/PostponseSign.vue
+
+
+
+
+
+/* normalize component */
+
+var PostponseSign_component = normalizeComponent(
+  Chart_PostponseSignvue_type_script_lang_js_,
+  PostponseSignvue_type_template_id_4740748d_render,
+  PostponseSignvue_type_template_id_4740748d_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var PostponseSign_api; }
+PostponseSign_component.options.__file = "src/components/Chart/PostponseSign.vue"
+/* harmony default export */ var PostponseSign = (PostponseSign_component.exports);
 // CONCATENATED MODULE: ./node_modules/vue-loader/lib??vue-loader-options!./src/components/Chart/Row/Task.vue?vue&type=script&lang=js&
 //
 //
@@ -4639,6 +4792,8 @@ ProgressBar_component.options.__file = "src/components/Chart/ProgressBar.vue"
 //
 //
 //
+//
+
 
 
 
@@ -4647,6 +4802,7 @@ ProgressBar_component.options.__file = "src/components/Chart/ProgressBar.vue"
 /* harmony default export */ var Taskvue_type_script_lang_js_ = ({
   name: 'Task',
   components: {
+    PostponseSign: PostponseSign,
     ChartText: Text,
     ProgressBar: ProgressBar,
     Expander: Expander
@@ -4841,7 +4997,13 @@ var Milestonevue_type_template_id_3013006c_render = function() {
               task: _vm.task,
               "clip-path": "url(#" + _vm.clipPathId + ")"
             }
-          })
+          }),
+          _vm._v(" "),
+          _vm.root.state.options.chart.postponse.display &&
+          _vm.task.postponse &&
+          _vm.task.postponse !== "0"
+            ? _c("postponse-sign", { attrs: { task: _vm.task } })
+            : _vm._e()
         ],
         1
       ),
@@ -4934,6 +5096,8 @@ Milestonevue_type_template_id_3013006c_render._withStripped = true
 //
 //
 //
+//
+
 
 
 
@@ -4942,6 +5106,7 @@ Milestonevue_type_template_id_3013006c_render._withStripped = true
 /* harmony default export */ var Milestonevue_type_script_lang_js_ = ({
   name: 'Milestone',
   components: {
+    PostponseSign: PostponseSign,
     ChartText: Text,
     ProgressBar: ProgressBar,
     Expander: Expander
@@ -5146,7 +5311,13 @@ var Projectvue_type_template_id_077bbd73_render = function() {
               task: _vm.task,
               "clip-path": "url(#" + _vm.clipPathId + ")"
             }
-          })
+          }),
+          _vm._v(" "),
+          _vm.root.state.options.chart.postponse.display &&
+          _vm.task.postponse &&
+          _vm.task.postponse !== "0"
+            ? _c("postponse-sign", { attrs: { task: _vm.task } })
+            : _vm._e()
         ],
         1
       ),
@@ -5239,6 +5410,8 @@ Projectvue_type_template_id_077bbd73_render._withStripped = true
 //
 //
 //
+//
+
 
 
 
@@ -5247,6 +5420,7 @@ Projectvue_type_template_id_077bbd73_render._withStripped = true
 /* harmony default export */ var Projectvue_type_script_lang_js_ = ({
   name: 'Project',
   components: {
+    PostponseSign: PostponseSign,
     ChartText: Text,
     ProgressBar: ProgressBar,
     Expander: Expander
@@ -6050,6 +6224,10 @@ function getStyle(fontSize = '12px', fontFamily = 'Arial, sans-serif') {
       'stroke-width': 1,
       fill: '#F75C4C'
     },
+    'chart-row-bar-text': {
+      'text-align': 'center',
+      color: '#fff'
+    },
     'chart-row-project-wrapper': {},
     'chart-row-project': {},
     'chart-row-project-polygon': {},
@@ -6076,6 +6254,12 @@ function getStyle(fontSize = '12px', fontFamily = 'Arial, sans-serif') {
     'chart-row-progress-bar-outline': {
       stroke: '#E74C3C',
       'stroke-width': 1
+    },
+    'chart-row-postponse-bar-outline': {
+      stroke: '#FFFFFF',
+      fill: 'transparent',
+      'stroke-width': 2,
+      'stroke-dasharray': '2 2'
     },
     'chart-dependency-lines-wrapper': {},
     'chart-dependency-lines-path': {
@@ -6165,7 +6349,8 @@ function getOptions(userOptions) {
       progress: 'progress',
       type: 'type',
       style: 'style',
-      collapsed: 'collapsed'
+      collapsed: 'collapsed',
+      postponse: 'postponse' // 推迟时间
     },
     width: 0,
     height: 0,
@@ -6232,7 +6417,12 @@ function getOptions(userOptions) {
         width: 20, //*
         height: 6, //*
         pattern: true,
-        bar: false
+        bar: false,
+        patternType: 1,
+        textInside: false,
+      },
+      postponse: {
+        display: false
       },
       text: {
         offset: 4, //*
