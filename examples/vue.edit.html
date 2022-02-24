@@ -67,6 +67,7 @@
           start: getDate(-24 * 5),
           duration: 15 * 24 * 60 * 60 * 1000,
           percent: 85,
+          postponse: 1 * 24 * 60 * 60 * 1000,
           type: 'project'
           //collapsed: true,
         },
@@ -112,10 +113,11 @@
           user:
             '<a href="https://www.google.com/search?q=Clark+Kent" target="_blank" style="color:#0077c0;">Clark Kent</a>',
           start: getDate(-24 * 2),
-          duration: 2 * 24 * 60 * 60 * 1000,
+          duration: 3 * 24 * 60 * 60 * 1000,
           percent: 50,
           type: 'task',
-          dependentOn: [3]
+          dependentOn: [3],
+          postponse: 1 * 24 * 60 * 60 * 1000
         },
         {
           id: 5,
@@ -125,6 +127,7 @@
           parentId: 4,
           start: getDate(0),
           duration: 2 * 24 * 60 * 60 * 1000,
+          postponse: 1 * 24 * 60 * 60 * 1000,
           percent: 10,
           type: 'milestone',
           style: {
@@ -142,6 +145,7 @@
           parentId: 5,
           start: getDate(24),
           duration: 1 * 24 * 60 * 60 * 1000,
+          postponse: 0.5 * 24 * 60 * 60 * 1000,
           percent: 50,
           type: 'task',
           collapsed: true,
@@ -290,7 +294,12 @@
         },
         chart: {
           progress: {
-            bar: false
+            bar: false,
+            patternType: 1,
+            textInside: true
+          },
+          postponse: {
+            display: true
           },
           expander: {
             display: true
