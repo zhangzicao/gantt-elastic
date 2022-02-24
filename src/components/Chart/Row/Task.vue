@@ -66,7 +66,7 @@
         }"
         :points="getPoints"
       ></polygon>
-      <progress-bar :task="task" :clip-path="'url(#' + clipPathId + ')'"></progress-bar>
+      <progress-bar type="task" :task="task" :clip-path="'url(#' + clipPathId + ')'"></progress-bar>
       <postponse-sign :task="task" v-if="root.state.options.chart.postponse.display && task.postponse && task.postponse!=='0'"></postponse-sign>
     </svg>
     <chart-text :task="task" v-if="root.state.options.chart.text.display"></chart-text>

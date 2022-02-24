@@ -58,7 +58,7 @@
         ></path>
       </g>
     </g>
-    <foreignObject  v-if="root.state.options.chart.progress.textInside"
+    <foreignObject  v-if="root.state.options.chart.progress.textInside && task.width>=40"
                     width="48"
                     :height="task.height"
                     :x="task.width/2-24" y="0"
@@ -69,7 +69,7 @@
         :style="{
           ...root.style['chart-row-bar-text'],
           ...task.style['chart-row-bar-text'],
-          'line-height': task.height+'px'
+          'line-height': task.height-(type=='project'?4:0)+'px'
         }">{{task.progress}}%</div>
     </foreignObject>
   </g>
@@ -79,7 +79,7 @@
 export default {
   name: 'ProgressBar',
   inject: ['root'],
-  props: ['task'],
+  props: ['task','type'],
   data() {
     return {};
   },
