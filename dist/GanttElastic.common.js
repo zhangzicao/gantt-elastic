@@ -4034,6 +4034,7 @@ var Taskvue_type_template_id_e9c23eca_render = function() {
           _vm._v(" "),
           _c("progress-bar", {
             attrs: {
+              type: "task",
               task: _vm.task,
               "clip-path": "url(#" + _vm.clipPathId + ")"
             }
@@ -4367,7 +4368,7 @@ var ProgressBarvue_type_template_id_4bc39355_render = function() {
         ]
       ),
       _vm._v(" "),
-      _vm.root.state.options.chart.progress.textInside
+      _vm.root.state.options.chart.progress.textInside && _vm.task.width >= 40
         ? _c(
             "foreignObject",
             {
@@ -4388,7 +4389,10 @@ var ProgressBarvue_type_template_id_4bc39355_render = function() {
                     {},
                     _vm.root.style["chart-row-bar-text"],
                     _vm.task.style["chart-row-bar-text"],
-                    { "line-height": _vm.task.height + "px" }
+                    {
+                      "line-height":
+                        _vm.task.height - (_vm.type == "project" ? 4 : 0) + "px"
+                    }
                   )
                 },
                 [_vm._v(_vm._s(_vm.task.progress) + "%")]
@@ -4488,7 +4492,7 @@ ProgressBarvue_type_template_id_4bc39355_render._withStripped = true
 /* harmony default export */ var ProgressBarvue_type_script_lang_js_ = ({
   name: 'ProgressBar',
   inject: ['root'],
-  props: ['task'],
+  props: ['task','type'],
   data() {
     return {};
   },
@@ -4985,6 +4989,7 @@ var Milestonevue_type_template_id_3013006c_render = function() {
           _vm._v(" "),
           _c("progress-bar", {
             attrs: {
+              type: "milestone",
               task: _vm.task,
               "clip-path": "url(#" + _vm.clipPathId + ")"
             }
@@ -5299,6 +5304,7 @@ var Projectvue_type_template_id_077bbd73_render = function() {
           _vm._v(" "),
           _c("progress-bar", {
             attrs: {
+              type: "project",
               task: _vm.task,
               "clip-path": "url(#" + _vm.clipPathId + ")"
             }
