@@ -61,10 +61,10 @@
     <foreignObject  v-if="root.state.options.chart.progress.textInside && task.width>=40"
                     width="48"
                     :height="task.height"
-                    :x="task.width/2-24" y="0"
-                    requiredExtensions="http://www.w3.org/1999/xhtml">
+                    :x="task.width/2-24" y="0">
       <!-- XHTML content goes here -->
       <div
+        xmlns="http://www.w3.org/1999/xhtml"
         class="gantt-elastic__chart-row-bar-text"
         :style="{
           ...root.style['chart-row-bar-text'],
