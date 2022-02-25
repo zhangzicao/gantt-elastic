@@ -101,14 +101,15 @@ export default function getStyle(fontSize = '12px', fontFamily = 'Arial, sans-se
       'user-select': 'none'
     },
     'task-list-expander-line': {
-      fill: 'transparent',
+      fill: 'none',
       stroke: '#000000',
       'stroke-width': '1',
       'stroke-linecap': 'round'
     },
     'task-list-expander-border': {
-      fill: '#ffffffa0',
-      stroke: '#000000A0'
+      fill: '#a4a6b7',
+      stroke: '#000000',
+      'stroke-opacity': '0.6'
     },
     'chart-expander-wrapper': {
       display: 'block',
@@ -124,7 +125,7 @@ export default function getStyle(fontSize = '12px', fontFamily = 'Arial, sans-se
       'user-select': 'none'
     },
     'chart-expander-line': {
-      fill: 'transparent',
+      fill: 'none',
       stroke: '#000000',
       'stroke-width': '1',
       'stroke-linecap': 'round'
@@ -213,8 +214,10 @@ export default function getStyle(fontSize = '12px', fontFamily = 'Arial, sans-se
       'stroke-width': 1
     },
     'grid-line-time': {
-      stroke: '#FF000080',
-      'stroke-width': 1
+      fill: 'none',
+      stroke: '#ff0000',
+      'stroke-width': 2,
+      'stroke-opacity': '0.5',
     },
     chart: {
       'user-select': 'none',
@@ -293,14 +296,15 @@ export default function getStyle(fontSize = '12px', fontFamily = 'Arial, sans-se
     },
     'chart-row-postponse-bar-outline': {
       stroke: '#FFFFFF',
-      fill: 'transparent',
+      fill: 'none',
       'stroke-width': 2,
       'stroke-dasharray': '2 2'
     },
     'chart-dependency-lines-wrapper': {},
     'chart-dependency-lines-path': {
-      fill: 'transparent',
-      stroke: '#FFa00090',
+      fill: 'none',
+      stroke: '#ffa000',
+      'stroke-opacity': '0.56',
       'stroke-width': 2
     },
     'chart-scroll-container': {},
