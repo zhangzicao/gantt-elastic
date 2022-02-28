@@ -6286,8 +6286,10 @@ function getStyle(fontSize = '12px', fontFamily = 'Arial, sans-serif') {
       'stroke-linecap': 'round'
     },
     'chart-expander-border': {
-      fill: '#ffffffa0',
-      stroke: '#000000A0'
+      fill: '#ffffff',
+      'fill-opacity': '0.63',
+      'stroke-opacity': '0.63',
+      stroke: '#000000'
     },
     'task-list-container': {},
     'task-list-header-label': {
