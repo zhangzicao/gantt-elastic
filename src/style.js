@@ -319,10 +319,15 @@ export default function getStyle(fontSize = '12px', fontFamily = 'Arial, sans-se
       float: 'right'
     },
     'chart-days-highlight-rect': {
-      fill: '#f3f5f780'
+      fill: '#f3f5f7',
+      'fill-opacity': 0.5
     },
     'slot-header-beforeOptions': {
       display: 'inline-block'
+    },
+    'chart-row-overdue-bar': {
+      fill: '#E00E00',
+      stroke: '#E00E00',
     }
   };
 }

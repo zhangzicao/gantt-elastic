@@ -57,7 +57,8 @@ function getOptions(userOptions) {
       type: 'type',
       style: 'style',
       collapsed: 'collapsed',
-      postponse: 'postponse' // 推迟时间
+      postponse: 'postponse', // 推迟时间
+      showOverdue: 'showOverdue' // 显示逾期时间
     },
     width: 0,
     height: 0,
@@ -1430,8 +1431,15 @@ const GanttElastic = {
         let task = visibleTasks[index];
         task.width =
           task.duration / this.state.options.times.timePerPixel - this.style['grid-line-vertical']['stroke-width'];
+        task.originWidth = task.width
+        if(task.showOverdue){ // 计算逾期时的宽度
+          task.width = this.timeToPixelOffsetX(new Date().getTime()) - this.timeToPixelOffsetX(task.startTime);
+        }
         if (task.width < 0) {
           task.width = 0;
+        }
+        if (task.originWidth < 0) {
+          task.originWidth = 0;
         }
         task.height = this.state.options.row.height;
         task.x = this.timeToPixelOffsetX(task.startTime);

@@ -68,6 +68,10 @@
       ></polygon>
       <progress-bar type="milestone" :task="task" :clip-path="'url(#' + clipPathId + ')'"></progress-bar>
       <postponse-sign :task="task" v-if="root.state.options.chart.postponse.display && task.postponse && task.postponse!=='0'"></postponse-sign>
+      <overdue-bar type="milestone"
+                   :task="task"
+                   v-if="task.showOverdue"
+      ></overdue-bar>
     </svg>
     <chart-text :task="task" v-if="root.state.options.chart.text.display"></chart-text>
   </g>
@@ -79,9 +83,11 @@ import ProgressBar from '../ProgressBar.vue';
 import Expander from '../../Expander.vue';
 import taskMixin from './Task.mixin.js';
 import PostponseSign from "../PostponseSign.vue";
+import OverdueBar from "../OverdueBar.vue";
 export default {
   name: 'Milestone',
   components: {
+    OverdueBar,
     PostponseSign,
     ChartText,
     ProgressBar,

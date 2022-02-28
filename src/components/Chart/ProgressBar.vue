@@ -7,7 +7,16 @@
  */
 -->
 <template>
-  <g>
+  <svg
+    class="gantt-elastic__chart-row-bar gantt-elastic__chart-row-task"
+    :style="{ ...root.style['chart-row-bar'], ...root.style['chart-row-task'], ...task.style['chart-row-bar'] }"
+    x="0"
+    y="0"
+    :width="task.originWidth"
+    :height="task.height"
+    :viewBox="`0 0 ${task.originWidth} ${task.height}`"
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <g
       class="gantt-elastic__chart-row-progress-bar-wrapper"
       :style="{ ...root.style['chart-row-progress-bar-wrapper'], ...task.style['chart-row-progress-bar-wrapper'] }"
@@ -58,10 +67,10 @@
         ></path>
       </g>
     </g>
-    <foreignObject  v-if="root.state.options.chart.progress.textInside && task.width>=40"
+    <foreignObject  v-if="root.state.options.chart.progress.textInside && task.originWidth>=40"
                     width="48"
                     :height="task.height"
-                    :x="task.width/2-24" y="0">
+                    :x="task.originWidth/2-24" y="0">
       <!-- XHTML content goes here -->
       <div
         xmlns="http://www.w3.org/1999/xhtml"
@@ -72,7 +81,7 @@
           'line-height': task.height-(type=='project'?4:0)+'px'
         }">{{task.progress}}%</div>
     </foreignObject>
-  </g>
+  </svg>
 </template>
 
 <script>
@@ -100,7 +109,7 @@ export default {
      * @returns {string}
      */
     getLinePoints() {
-      const start = (this.task.width / 100) * this.task.progress;
+      const start = (this.task.originWidth / 100) * this.task.progress;
       return `M ${start} 0 L ${start} ${this.task.height}`;
     },
 
