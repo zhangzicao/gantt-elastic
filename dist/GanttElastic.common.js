@@ -4044,6 +4044,10 @@ var Taskvue_type_template_id_e9c23eca_render = function() {
           _vm.task.postponse &&
           _vm.task.postponse !== "0"
             ? _c("postponse-sign", { attrs: { task: _vm.task } })
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.task.showOverdue
+            ? _c("overdue-bar", { attrs: { type: "task", task: _vm.task } })
             : _vm._e()
         ],
         1
@@ -4277,7 +4281,24 @@ var ProgressBarvue_type_template_id_4bc39355_render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "g",
+    "svg",
+    {
+      staticClass: "gantt-elastic__chart-row-bar gantt-elastic__chart-row-task",
+      style: Object.assign(
+        {},
+        _vm.root.style["chart-row-bar"],
+        _vm.root.style["chart-row-task"],
+        _vm.task.style["chart-row-bar"]
+      ),
+      attrs: {
+        x: "0",
+        y: "0",
+        width: _vm.task.originWidth,
+        height: _vm.task.height,
+        viewBox: "0 0 " + _vm.task.originWidth + " " + _vm.task.height,
+        xmlns: "http://www.w3.org/2000/svg"
+      }
+    },
     [
       _c(
         "g",
@@ -4368,14 +4389,15 @@ var ProgressBarvue_type_template_id_4bc39355_render = function() {
         ]
       ),
       _vm._v(" "),
-      _vm.root.state.options.chart.progress.textInside && _vm.task.width >= 40
+      _vm.root.state.options.chart.progress.textInside &&
+      _vm.task.originWidth >= 40
         ? _c(
             "foreignObject",
             {
               attrs: {
                 width: "48",
                 height: _vm.task.height,
-                x: _vm.task.width / 2 - 24,
+                x: _vm.task.originWidth / 2 - 24,
                 y: "0"
               }
             },
@@ -4488,6 +4510,15 @@ ProgressBarvue_type_template_id_4bc39355_render._withStripped = true
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ var ProgressBarvue_type_script_lang_js_ = ({
   name: 'ProgressBar',
@@ -4513,7 +4544,7 @@ ProgressBarvue_type_template_id_4bc39355_render._withStripped = true
      * @returns {string}
      */
     getLinePoints() {
-      const start = (this.task.width / 100) * this.task.progress;
+      const start = (this.task.originWidth / 100) * this.task.progress;
       return `M ${start} 0 L ${start} ${this.task.height}`;
     },
 
@@ -4712,6 +4743,139 @@ var PostponseSign_component = normalizeComponent(
 if (false) { var PostponseSign_api; }
 PostponseSign_component.options.__file = "src/components/Chart/PostponseSign.vue"
 /* harmony default export */ var PostponseSign = (PostponseSign_component.exports);
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./src/components/Chart/OverdueBar.vue?vue&type=template&id=d49e8718&
+var OverdueBarvue_type_template_id_d49e8718_render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("path", {
+    staticClass: "gantt-elastic__chart-row-overdue-bar",
+    style: Object.assign(
+      {},
+      _vm.root.style["chart-row-overdue-bar"],
+      _vm.task.style["chart-row-overdue-bar"]
+    ),
+    attrs: { d: _vm.getPoints }
+  })
+}
+var OverdueBarvue_type_template_id_d49e8718_staticRenderFns = []
+OverdueBarvue_type_template_id_d49e8718_render._withStripped = true
+
+
+// CONCATENATED MODULE: ./src/components/Chart/OverdueBar.vue?vue&type=template&id=d49e8718&
+
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib??vue-loader-options!./src/components/Chart/OverdueBar.vue?vue&type=script&lang=js&
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ var OverdueBarvue_type_script_lang_js_ = ({
+  name: 'OverdueBar',
+  inject: ['root'],
+  props: ['task','type'],
+  data() {
+    return {};
+  },
+
+  computed: {
+    /**
+     * Get width
+     *
+     * @returns {string}
+     */
+    getPoints() {
+      if(this.type==='project') {
+        const task = this.task;
+        const bottom = task.height - task.height / 4;
+        const corner = task.height / 6;
+        const smallCorner = task.height / 8;
+        return `M ${task.originWidth},0
+                L ${task.width - smallCorner} 0
+                L ${task.width} ${smallCorner}
+                L ${task.width} ${bottom}
+                L ${task.width - corner} ${task.height}
+                L ${task.width - corner * 2} ${bottom}
+                L ${task.originWidth} ${bottom}
+                Z
+        `;
+      }else if(this.type==='milestone') {
+        const task = this.task;
+        const fifty = task.height / 2;
+        let offset = fifty;
+        if (task.width / 2 - offset < 0) {
+          offset = task.width / 2;
+        }
+        return `M ${this.task.originWidth},0
+                L ${this.task.width-offset} 0
+                L ${this.task.width} ${fifty}
+                L ${this.task.width-offset} ${this.task.height}
+                L ${this.task.originWidth} ${this.task.height}
+                Z`
+      }
+      return `M ${this.task.originWidth},0
+              L ${this.task.width} 0
+              L ${this.task.width} ${this.task.height}
+              L ${this.task.originWidth} ${this.task.height}
+              Z`
+    },
+    /**
+     * Get width
+     *
+     * @returns {string}
+     */
+    getWidth() {
+      let result = this.task.width - this.task.originWidth;
+      return result>0?result:0
+    },
+    /**
+     * Get height
+     *
+     * @returns {number}
+     */
+    getLeft() {
+      return this.task.originWidth;
+    },
+  }
+});
+
+// CONCATENATED MODULE: ./src/components/Chart/OverdueBar.vue?vue&type=script&lang=js&
+ /* harmony default export */ var Chart_OverdueBarvue_type_script_lang_js_ = (OverdueBarvue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./src/components/Chart/OverdueBar.vue
+
+
+
+
+
+/* normalize component */
+
+var OverdueBar_component = normalizeComponent(
+  Chart_OverdueBarvue_type_script_lang_js_,
+  OverdueBarvue_type_template_id_d49e8718_render,
+  OverdueBarvue_type_template_id_d49e8718_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var OverdueBar_api; }
+OverdueBar_component.options.__file = "src/components/Chart/OverdueBar.vue"
+/* harmony default export */ var OverdueBar = (OverdueBar_component.exports);
 // CONCATENATED MODULE: ./node_modules/vue-loader/lib??vue-loader-options!./src/components/Chart/Row/Task.vue?vue&type=script&lang=js&
 //
 //
@@ -4788,6 +4952,13 @@ PostponseSign_component.options.__file = "src/components/Chart/PostponseSign.vue
 //
 //
 //
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -4797,6 +4968,7 @@ PostponseSign_component.options.__file = "src/components/Chart/PostponseSign.vue
 /* harmony default export */ var Taskvue_type_script_lang_js_ = ({
   name: 'Task',
   components: {
+    OverdueBar: OverdueBar,
     PostponseSign: PostponseSign,
     ChartText: Text,
     ProgressBar: ProgressBar,
@@ -4999,6 +5171,12 @@ var Milestonevue_type_template_id_3013006c_render = function() {
           _vm.task.postponse &&
           _vm.task.postponse !== "0"
             ? _c("postponse-sign", { attrs: { task: _vm.task } })
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.task.showOverdue
+            ? _c("overdue-bar", {
+                attrs: { type: "milestone", task: _vm.task }
+              })
             : _vm._e()
         ],
         1
@@ -5093,6 +5271,11 @@ Milestonevue_type_template_id_3013006c_render._withStripped = true
 //
 //
 //
+//
+//
+//
+//
+
 
 
 
@@ -5102,6 +5285,7 @@ Milestonevue_type_template_id_3013006c_render._withStripped = true
 /* harmony default export */ var Milestonevue_type_script_lang_js_ = ({
   name: 'Milestone',
   components: {
+    OverdueBar: OverdueBar,
     PostponseSign: PostponseSign,
     ChartText: Text,
     ProgressBar: ProgressBar,
@@ -5314,6 +5498,10 @@ var Projectvue_type_template_id_077bbd73_render = function() {
           _vm.task.postponse &&
           _vm.task.postponse !== "0"
             ? _c("postponse-sign", { attrs: { task: _vm.task } })
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.task.showOverdue
+            ? _c("overdue-bar", { attrs: { type: "project", task: _vm.task } })
             : _vm._e()
         ],
         1
@@ -5408,6 +5596,11 @@ Projectvue_type_template_id_077bbd73_render._withStripped = true
 //
 //
 //
+//
+//
+//
+//
+
 
 
 
@@ -5417,6 +5610,7 @@ Projectvue_type_template_id_077bbd73_render._withStripped = true
 /* harmony default export */ var Projectvue_type_script_lang_js_ = ({
   name: 'Project',
   components: {
+    OverdueBar: OverdueBar,
     PostponseSign: PostponseSign,
     ChartText: Text,
     ProgressBar: ProgressBar,
@@ -6280,10 +6474,15 @@ function getStyle(fontSize = '12px', fontFamily = 'Arial, sans-serif') {
       float: 'right'
     },
     'chart-days-highlight-rect': {
-      fill: '#f3f5f780'
+      fill: '#f3f5f7',
+      'fill-opacity': 0.5
     },
     'slot-header-beforeOptions': {
       display: 'inline-block'
+    },
+    'chart-row-overdue-bar': {
+      fill: '#E00E00',
+      stroke: '#E00E00',
     }
   };
 }
@@ -6351,7 +6550,8 @@ function getOptions(userOptions) {
       type: 'type',
       style: 'style',
       collapsed: 'collapsed',
-      postponse: 'postponse' // 推迟时间
+      postponse: 'postponse', // 推迟时间
+      showOverdue: 'showOverdue' // 显示逾期时间
     },
     width: 0,
     height: 0,
@@ -7724,8 +7924,15 @@ const GanttElastic = {
         let task = visibleTasks[index];
         task.width =
           task.duration / this.state.options.times.timePerPixel - this.style['grid-line-vertical']['stroke-width'];
+        task.originWidth = task.width
+        if(task.showOverdue){ // 计算逾期时的宽度
+          task.width = this.timeToPixelOffsetX(new Date().getTime()) - this.timeToPixelOffsetX(task.startTime);
+        }
         if (task.width < 0) {
           task.width = 0;
+        }
+        if (task.originWidth < 0) {
+          task.originWidth = 0;
         }
         task.height = this.state.options.row.height;
         task.x = this.timeToPixelOffsetX(task.startTime);
