@@ -4,6 +4,7 @@
 <h3>本组件基于Gantt-elastic做了二次开发，新增功能如下：</h3>
 1. 新增显示进度条上的进度百分比
 2. 新增对延期时间的展示
+3. 新增计划进度条的展示
 
 <br>
 <h3>Original Gantt-elastic moved as next major version to <a href="https://github.com/neuronetio/gantt-schedule-timeline-calendar">gantt-schedule-timeline-calendar</a></h3><br><br>
@@ -130,6 +131,18 @@ and if you want default header
           progress: 50,
           type: 'task',
           dependentOn: [3],
+        },
+        {
+          id: 5,
+          label: 'this is planBar demo!',
+          user:
+            '<a href="https://www.google.com/search?q=Clark+Kent" target="_blank" style="color:#0077c0;">Clark Kent</a>',
+          start: getDate(-24 * 2),
+          duration: 2 * 24 * 60 * 60 * 1000,
+          progress: 50,
+          type: 'task',
+          planStart: getDate(-24 * 2),
+          planDuration:  3 * 24 * 60 * 60 * 1000
         },
       ];
 
