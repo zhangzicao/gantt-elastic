@@ -1338,8 +1338,14 @@ const GanttElastic = {
         if (task.startTime < firstTaskTime) {
           firstTaskTime = task.startTime;
         }
+        if (task.planStart && task.planStart < firstTaskTime) {
+          firstTaskTime = task.planStart;
+        }
         if (task.startTime + task.duration > lastTaskTime) {
           lastTaskTime = task.startTime + task.duration;
+        }
+        if (task.planStart && task.planDuration && task.planStart + task.planDuration > lastTaskTime) {
+          lastTaskTime = task.planStart + task.planDuration;
         }
       }
       this.state.options.times.firstTaskTime = firstTaskTime;
@@ -1446,6 +1452,10 @@ const GanttElastic = {
         task.y =
           (this.state.options.row.height + this.state.options.chart.grid.horizontal.gap * 2) * index +
           this.state.options.chart.grid.horizontal.gap;
+        if(task.planStart && task.planDuration){
+          task.planX = this.timeToPixelOffsetX(task.planStart);
+          task.planWidth = task.planDuration / this.state.options.times.timePerPixel - this.style['grid-line-vertical']['stroke-width'];
+        }
       }
       return visibleTasks;
     },

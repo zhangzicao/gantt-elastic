@@ -1,38 +1,23 @@
 <!--
 /**
- * @fileoverview Task component
+ * @fileoverview Plan component
  * @license MIT
- * @author Rafal Pospiech <neuronet.io@gmail.com>
  * @package GanttElastic
  */
 -->
 <template>
   <g
-    class="gantt-elastic__chart-row-bar-wrapper gantt-elastic__chart-row-task-wrapper"
+    v-if="rowShowPlanBar"
+    class="gantt-elastic__chart-row-bar-wrapper gantt-elastic__chart-row-plan-wrapper"
     :style="{
       ...root.style['chart-row-bar-wrapper'],
-      ...root.style['chart-row-task-wrapper'],
-      ...task.style['chart-row-bar-wrapper']
+      ...root.style['chart-row-plan-wrapper'],
+      ...task.style['chart-row-plan-wrapper']
     }"
   >
-    <foreignObject
-      class="gantt-elastic__chart-expander gantt-elastic__chart-expander--task"
-      :style="{
-        ...root.style['chart-expander'],
-        ...root.style['chart-expander--task'],
-        ...task.style['chart-expander']
-      }"
-      :x="task.x - root.state.options.chart.expander.offset - root.state.options.chart.expander.size"
-      :y="task.y + (root.state.options.row.height - root.state.options.chart.expander.size) / 2"
-      :width="root.state.options.chart.expander.size"
-      :height="root.state.options.chart.expander.size"
-      v-if="displayExpander"
-    >
-      <expander :tasks="[task]" :options="root.state.options.chart.expander" type="chart"></expander>
-    </foreignObject>
     <svg
-      class="gantt-elastic__chart-row-bar gantt-elastic__chart-row-task"
-      :style="{ ...root.style['chart-row-bar'], ...root.style['chart-row-task'], ...task.style['chart-row-bar'] }"
+      class="gantt-elastic__chart-row-bar gantt-elastic__chart-row-plan"
+      :style="{ ...root.style['chart-row-bar'], ...root.style['chart-row-plan'], ...task.style['chart-row-bar'] }"
       :x="viewbox.x"
       :y="viewbox.y"
       :width="viewbox.width"
@@ -57,25 +42,18 @@
         </clipPath>
       </defs>
       <polygon
-        class="gantt-elastic__chart-row-bar-polygon gantt-elastic__chart-row-task-polygon"
+        class="gantt-elastic__chart-row-bar-polygon gantt-elastic__chart-row-plan-polygon"
         :style="{
           ...root.style['chart-row-bar-polygon'],
-          ...root.style['chart-row-task-polygon'],
-          ...task.style['base'],
-          ...task.style['chart-row-bar-polygon']
+          ...root.style['chart-row-plan-polygon'],
+          ...task.style['chart-row-plan-polygon']
         }"
         :points="getPoints"
       ></polygon>
-      <progress-bar type="task" :task="task" :clip-path="'url(#' + clipPathId + ')'"></progress-bar>
-      <postponse-sign :task="task"
-                      v-if="root.state.options.chart.postponse.display && task.postponse && task.postponse!=='0'"
-      ></postponse-sign>
-      <overdue-bar type="task"
-                   :task="task"
-                   v-if="task.showOverdue"
-      ></overdue-bar>
+      <progress-bar type="task" :task="task" :clip-path="'url(#' + clipPathId + ')'"
+                    patternId="planPath"
+      ></progress-bar>
     </svg>
-    <chart-text :task="task" v-if="root.state.options.chart.text.display"></chart-text>
   </g>
 </template>
 
@@ -102,13 +80,21 @@ export default {
     return {};
   },
   computed: {
+    viewbox(){
+      return {
+        x: this.task.planX,
+        y: this.task.y,
+        width: this.task.planWidth,
+        height: this.task.height / 2
+      }
+    },
     /**
      * Get clip path id
      *
      * @returns {string}
      */
     clipPathId() {
-      return 'gantt-elastic__task-clip-path-' + this.task.id;
+      return 'gantt-elastic__task-clip-plan-path-' + this.task.id;
     },
 
     /**

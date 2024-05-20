@@ -12,9 +12,9 @@
     :style="{ ...root.style['chart-row-bar'], ...root.style['chart-row-task'], ...task.style['chart-row-bar'] }"
     x="0"
     y="0"
-    :width="task.originWidth"
-    :height="task.height"
-    :viewBox="`0 0 ${task.originWidth} ${task.height}`"
+    :width="width"
+    :height="height"
+    :viewBox="`0 0 ${width} ${height}`"
     xmlns="http://www.w3.org/2000/svg"
   >
     <g
@@ -23,7 +23,7 @@
     >
       <defs>
         <pattern
-          id="diagonalHatch"
+          :id="patternId"
           :width="root.state.options.chart.progress.width"
           :height="root.state.options.chart.progress.width"
           patternTransform="rotate(45 0 0)"
@@ -60,17 +60,16 @@
           class="gantt-elastic__chart-row-progress-bar-outline"
           :style="{
           ...root.style['chart-row-progress-bar-outline'],
-          ...task.style['base'],
           ...task.style['chart-row-progress-bar-outline']
         }"
           :d="getLinePoints"
         ></path>
       </g>
     </g>
-    <foreignObject  v-if="root.state.options.chart.progress.textInside && task.originWidth>=40"
+    <foreignObject  v-if="root.state.options.chart.progress.textInside && width>=40"
                     width="48"
-                    :height="task.height"
-                    :x="task.originWidth/2-24" y="0">
+                    :height="height"
+                    :x="width/2-24" y="0">
       <!-- XHTML content goes here -->
       <div
         xmlns="http://www.w3.org/1999/xhtml"
@@ -78,7 +77,7 @@
         :style="{
           ...root.style['chart-row-bar-text'],
           ...task.style['chart-row-bar-text'],
-          'line-height': task.height-(type=='project'?4:0)+'px'
+          'line-height': height-(type=='project'?4:0)+'px'
         }">{{task.progress}}%</div>
     </foreignObject>
   </svg>
@@ -88,12 +87,28 @@
 export default {
   name: 'ProgressBar',
   inject: ['root'],
-  props: ['task','type'],
+  props: {
+    task: {},
+    type: {},
+    patternId: {
+      default: 'diagonalHatch'
+    }
+  },
   data() {
     return {};
   },
-
+  created() {
+    // this.width = this.$parent.viewbox.width || this.task.originWidth
+    // this.height = this.$parent.viewbox.height || this.task.height
+    // console.log(this.width)
+  },
   computed: {
+    width(){
+      return this.$parent.viewbox.width || this.task.originWidth
+    },
+    height(){
+      return this.$parent.viewbox.height || this.task.height
+    },
     /**
      * Get progress width
      *
@@ -109,8 +124,8 @@ export default {
      * @returns {string}
      */
     getLinePoints() {
-      const start = (this.task.originWidth / 100) * this.task.progress;
-      return `M ${start} 0 L ${start} ${this.task.height}`;
+      const start = (this.width / 100) * this.task.progress;
+      return `M ${start} 0 L ${start} ${this.height}`;
     },
 
     /**

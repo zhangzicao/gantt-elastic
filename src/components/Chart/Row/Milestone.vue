@@ -33,11 +33,11 @@
     <svg
       class="gantt-elastic__chart-row-bar gantt-elastic__chart-row-milestone"
       :style="{ ...root.style['chart-row-bar'], ...root.style['chart-row-milestone'], ...task.style['chart-row-bar'] }"
-      :x="task.x"
-      :y="task.y"
-      :width="task.width"
-      :height="task.height"
-      :viewBox="`0 0 ${task.width} ${task.height}`"
+      :x="viewbox.x"
+      :y="viewbox.y"
+      :width="viewbox.width"
+      :height="viewbox.height"
+      :viewBox="`0 0 ${viewbox.width} ${viewbox.height}`"
       @click="emitEvent('click', $event)"
       @mouseenter="emitEvent('mouseenter', $event)"
       @mouseover="emitEvent('mouseover', $event)"
@@ -115,7 +115,7 @@ export default {
      * @returns {string}
      */
     getPoints() {
-      const task = this.task;
+      const task = this.viewbox;
       const fifty = task.height / 2;
       let offset = fifty;
       if (task.width / 2 - offset < 0) {

@@ -59,6 +59,7 @@
               :task="task"
               :key="task.id"
             >
+              <Plan :task="task" isPlanBar v-if=""></Plan>
               <component :task="task" :is="task.type"></component>
             </g>
           </svg>
@@ -76,6 +77,7 @@ import DependencyLines from './DependencyLines.vue';
 import Task from './Row/Task.vue';
 import Milestone from './Row/Milestone.vue';
 import Project from './Row/Project.vue';
+import Plan from './Row/Plan.vue';
 export default {
   name: 'Chart',
   components: {
@@ -85,6 +87,7 @@ export default {
     Task,
     Milestone,
     Project,
+    Plan,
     DaysHighlight
   },
   inject: ['root'],

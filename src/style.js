@@ -265,9 +265,15 @@ export default function getStyle(fontSize = '12px', fontFamily = 'Arial, sans-se
       'stroke-width': 1,
       fill: '#F75C4C'
     },
+    'chart-row-plan-polygon': {
+      stroke: '#00bcd4',
+      'stroke-width': 1,
+      fill: '#00bcd4'
+    },
     'chart-row-bar-text': {
       'text-align': 'center',
-      color: '#fff'
+      color: '#fff',
+      'font-size': '14px'
     },
     'chart-row-project-wrapper': {},
     'chart-row-project': {},
@@ -293,7 +299,7 @@ export default function getStyle(fontSize = '12px', fontFamily = 'Arial, sans-se
       transform: 'translateY(0.1) scaleY(0.8)'
     },
     'chart-row-progress-bar-outline': {
-      stroke: '#E74C3C',
+      stroke: 'rgba(0,0,0,0.1s)',
       'stroke-width': 1
     },
     'chart-row-postponse-bar-outline': {
