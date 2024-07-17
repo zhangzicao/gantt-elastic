@@ -541,6 +541,12 @@ const GanttElastic = {
         if (typeof task.height === 'undefined') {
           task.height = 0;
         }
+        if (typeof task.planX === 'undefined') {
+          task.planX = 0;
+        }
+        if (typeof task.planWidth === 'undefined') {
+          task.planWidth = 0;
+        }
         if (typeof task.mouseOver === 'undefined') {
           task.mouseOver = false;
         }
@@ -1453,8 +1459,8 @@ const GanttElastic = {
           (this.state.options.row.height + this.state.options.chart.grid.horizontal.gap * 2) * index +
           this.state.options.chart.grid.horizontal.gap;
         if(task.planStart && task.planDuration){
-          task.planX = this.timeToPixelOffsetX(task.planStart);
-          task.planWidth = task.planDuration / this.state.options.times.timePerPixel - this.style['grid-line-vertical']['stroke-width'];
+          this.$set(task,'planX', this.timeToPixelOffsetX(task.planStart))
+          this.$set(task,'planWidth', task.planDuration / this.state.options.times.timePerPixel - this.style['grid-line-vertical']['stroke-width'])
         }
       }
       return visibleTasks;

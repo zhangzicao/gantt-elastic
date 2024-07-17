@@ -314,7 +314,8 @@
             {
               id: 3,
               label: 'Start',
-              value: task => dayjs(task.start).format('YYYY-MM-DD'),
+              // value: task => dayjs(task.start).format('YYYY-MM-DD'),
+              value: task => task.start,
               width: 78
             },
             {

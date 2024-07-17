@@ -67,9 +67,9 @@
       </g>
     </g>
     <foreignObject  v-if="root.state.options.chart.progress.textInside && width>=40"
-                    width="48"
+                    width="60"
                     :height="height"
-                    :x="width/2-24" y="0">
+                    :x="width/2-30  " y="0">
       <!-- XHTML content goes here -->
       <div
         xmlns="http://www.w3.org/1999/xhtml"
